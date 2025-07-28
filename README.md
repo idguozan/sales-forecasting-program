@@ -1,7 +1,7 @@
 
 # Sales Forecasting Program 
 
-> **🚀 Made by Ozan İdgü**
+> **� Developed by Ozan İdgü**
 
 This project is a Python-based sales forecasting pipeline with a **modular architecture**. It generates future sales predictions per product using various machine learning models and visualizes the results with comprehensive reporting.
 
