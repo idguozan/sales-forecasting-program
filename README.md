@@ -5,18 +5,6 @@
 
 This project is a Python-based sales forecasting pipeline with a **modular architecture**. It generates future sales predictions per product using various machine learning models and visualizes the results with comprehensive reporting.
 
-## ✨ Recent Updatesasting Program 
-
-> **🚀 Developed by Ozan İdgü**
-
-This project is a Python-based sales forecasting pipeline with a **modular architecture**. It generates future sales predictions per product using various machine learning models and visualizes the results with comprehensive reporting.
-
-## ✨ Recent Updates Forecasting Program 
-
-> **� Developed by Ozan İdgü**
-
-This project is a Python-based sales forecasting pipeline with a **modular architecture**. It generates future sales predictions per product using various machine learning models and visualizes the results with comprehensive reporting.
-
 ## ✨ Recent Updates
 - **✅ Complete modular restructure**: Broke down monolithic 1460+ line script into organized modules
 - **✅ Enhanced ML pipeline**: Added XGBoost and CatBoost models with optimized hyperparameters  
