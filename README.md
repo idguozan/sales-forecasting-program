@@ -34,6 +34,7 @@ This project is a Python-based sales forecasting pipeline with a **modular archi
 3. Add your data file to the `uploads/` folder or upload via the admin panel.
 
 ## Usage
+<<<<<<< HEAD
 **Option 1 - Command line with specific file:**
 ```sh
 python scripts/run_batch_new.py uploads/your_data_file.xlsx
@@ -49,6 +50,17 @@ python scripts/run_batch_new.py
 - `app/static/plots/` → Product analysis and forecast charts (PNG)
 - `app/static/reports/` → Model forecasts (CSV), comprehensive PDF report, sheet summary
 - Project root → `future_forecast.csv` (legacy compatibility)
+=======
+To run batch forecasting:
+```sh
+python scripts/run_batch.py uploads/your_data_file.xlsx
+```
+
+Forecasts and reports are saved in:
+- `app/static/plots/` → Product charts
+- `app/static/reports/` → PDF report, total forecasts
+- Project root → future_forecast.csv
+>>>>>>> 5e3c9b7f3fa1ae0672ace07d77c5a57d6915e026
 
 ## FastAPI Service
 To start the web interface:
@@ -58,6 +70,7 @@ python app/main.py
 
 ## File Structure
 - `app/` : FastAPI backend and routers
+<<<<<<< HEAD
 - `pipeline/` : Legacy data processing code
 - **`scripts/` : Main execution and modular architecture**
   - **`run_batch_new.py`** : Main execution script (sheet-wise processing)
@@ -92,6 +105,19 @@ Latest run successfully processed **37 sheets**:
 - XGBoost: 5.8% WAPE (most accurate)
 - CatBoost: 12.5% WAPE (robust)
 
+=======
+- `pipeline/` : Data processing, modeling, and forecasting code
+- `scripts/` : Batch run script
+- `uploads/` : Uploaded data files
+
+## Models
+- RandomForestRegressor
+- ExtraTreesRegressor
+- GradientBoostingRegressor
+- Prophet (optional)
+- LightGBM (optional)
+
+>>>>>>> 5e3c9b7f3fa1ae0672ace07d77c5a57d6915e026
 ## Contributing
 You can contribute by opening pull requests or issues.
 
@@ -99,6 +125,9 @@ You can contribute by opening pull requests or issues.
 MIT
 
 ---
+<<<<<<< HEAD
 **📦 Modular Architecture:** The system is now fully modularized for better maintainability, testing, and extensibility. Each module has a specific responsibility and can be easily modified or extended.
 
+=======
+>>>>>>> 5e3c9b7f3fa1ae0672ace07d77c5a57d6915e026
 For detailed documentation and usage examples, please review the code.
