@@ -11,6 +11,14 @@ venv/
 env/
 ENV/
 
+# Output directories (generated files should not be tracked)
+app/static/reports/
+app/static/plots/
+*.pdf
+*.png
+*.jpg
+*.jpeg
+
 # Distribution / packaging
 .Python
 build/
@@ -184,10 +192,3 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
-
-# Output directories (reports, plots, generated files)
-app/static/reports/
-app/static/plots/
-*.png
-*.pdf
-future_forecast.csv
