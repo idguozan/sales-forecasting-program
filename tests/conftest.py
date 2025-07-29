@@ -15,12 +15,14 @@ sys.path.insert(0, str(project_root))
 
 @pytest.fixture
 def sample_sales_data():
-    """Sample sales data for testing"""
+    """Sample sales data for testing with InvoiceDate column"""
     dates = pd.date_range('2023-01-01', periods=52, freq='W')
     data = {
-        'week': dates,
+        'InvoiceDate': dates,  # prepare_weekly_data fonksiyonu bu kolonu bekliyor
         'İhtiyaç Kg': np.random.randint(100, 1000, 52),
-        'Stok Kodu': ['TEST001'] * 52
+        'StockCode': ['TEST001'] * 52,  # StockCode kolonu
+        'Quantity': np.random.randint(1, 10, 52),  # Quantity kolonu ekle
+        'UnitPrice': np.random.uniform(5, 50, 52)  # UnitPrice kolonu ekle
     }
     return pd.DataFrame(data)
 
@@ -74,11 +76,27 @@ def mock_config():
 
 @pytest.fixture
 def sample_mapped_data():
-    """Sample data with proper column mapping"""
+    """Sample data with proper column mapping (total_sales column)"""
     dates = pd.date_range('2023-01-01', periods=30, freq='W')
     return pd.DataFrame({
         'week': dates,
-        'quantity': np.random.randint(100, 500, 30),
+        'total_sales': np.random.randint(100, 500, 30),  # CONFIG'de TARGET_COL = "total_sales"
+        'quantity': np.random.randint(10, 50, 30),
         'stock_code': ['MAPPED_TEST'] * 30,
         'price': np.random.uniform(10, 100, 30)
     })
+
+@pytest.fixture
+def sample_csv_file():
+    """Create temporary CSV file for testing"""
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as tmp:
+        dates = pd.date_range('2023-01-01', periods=20, freq='W')
+        data = pd.DataFrame({
+            'week': dates,
+            'İhtiyaç Kg': np.random.randint(50, 200, 20),
+            'Stok Kodu': ['TEST001'] * 20
+        })
+        data.to_csv(tmp.name, index=False)
+        yield tmp.name
+        # Cleanup
+        os.unlink(tmp.name)
