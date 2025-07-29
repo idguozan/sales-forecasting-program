@@ -99,7 +99,12 @@ python app/main.py
     - **`utils/metrics.py`** : Performance metrics and utilities
 - **`tests/` : Comprehensive test suite**
   - **`unit/`** : Unit tests for individual modules (25 tests)
+    - **`test_config.py`** : Configuration validation tests
+    - **`test_data_loader.py`** : Data loading and column mapping tests
+    - **`test_feature_engineering.py`** : Feature creation and data preparation tests
+    - **`test_models.py`** : ML model functionality and forecasting tests
   - **`integration/`** : End-to-end pipeline tests (7 tests)
+    - **`test_pipeline.py`** : Complete pipeline integration tests
   - **`conftest.py`** : Shared fixtures and test data
   - **`TEST_USAGE_GUIDE.md`** : Complete testing documentation
 - `uploads/` : Uploaded data files
@@ -160,7 +165,12 @@ python -m pytest tests/integration/ -v  # Integration tests only
 
 #### Test Structure
 - `tests/unit/` - Unit tests for individual modules (25 tests)
+  - `test_config.py` - Configuration and parameter validation
+  - `test_data_loader.py` - Data loading, Excel/CSV processing, column mapping
+  - `test_feature_engineering.py` - Weekly data preparation, feature creation
+  - `test_models.py` - ML model functionality, forecasting methods
 - `tests/integration/` - End-to-end pipeline tests (7 tests)
+  - `test_pipeline.py` - Complete workflow integration testing
 - `tests/conftest.py` - Shared fixtures and test data
 - `tests/TEST_USAGE_GUIDE.md` - Complete testing documentation
 - `pytest.ini` - Test configuration
