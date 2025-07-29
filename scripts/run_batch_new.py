@@ -49,7 +49,10 @@ from modules.utils.metrics import (
     initialize_terminal_capture, log_output
 )
 from modules.data_loader import (
-    load_dataset_generic, map_columns
+    load_dataset_generic, map_columns, prepare_weekly_data
+)
+from modules.feature_engineering import (
+    create_features
 )
 from modules.forecasting.models import (
     simple_forecast_for_sheet, ml_forecast_for_sheet
@@ -140,8 +143,10 @@ def main():
                 else:
                     log_output(f"🤖 {sheet_name}: Sufficient data size ({len(mapped_df)} >= {SHEET_ML_THRESHOLD}), using ML models")
                     
-                    # ML forecasting
-                    sheet_forecasts = ml_forecast_for_sheet(mapped_df, sheet_name)
+                    # Complete ML pipeline: prepare weekly data -> create features -> ML forecast
+                    weekly_data = prepare_weekly_data(mapped_df, sheet_name)
+                    featured_data = create_features(weekly_data)
+                    sheet_forecasts = ml_forecast_for_sheet(featured_data, sheet_name)
                     method_used = "ML"
                 
                 # Create forecast charts
