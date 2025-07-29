@@ -13,9 +13,21 @@ from .config import TARGET_COL
 def create_features(df: pd.DataFrame) -> pd.DataFrame:
     """
     Create advanced time-based features for modeling.
+    Enhanced with outlier handling.
     """
     df = df.copy()
     df = df.sort_values("week").reset_index(drop=True)
+    
+    # Simple outlier handling using IQR method
+    Q1 = df[TARGET_COL].quantile(0.25)
+    Q3 = df[TARGET_COL].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    
+    # Cap outliers (preserve time series structure)
+    df.loc[df[TARGET_COL] < lower_bound, TARGET_COL] = lower_bound
+    df.loc[df[TARGET_COL] > upper_bound, TARGET_COL] = upper_bound
     
     # Basic time features
     df["week_of_year"] = df["week"].dt.isocalendar().week
@@ -63,6 +75,6 @@ def create_features(df: pd.DataFrame) -> pd.DataFrame:
     
     # Fill NaN values with advanced methods
     # Forward fill first, then backward fill, then fill with 0
-    df = df.ffill().bfill().fillna(0)  # Yeni pandas syntax
+    df = df.ffill().bfill().fillna(0)  # New pandas syntax
     
     return df
