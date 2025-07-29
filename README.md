@@ -26,12 +26,37 @@ This project is a Python-based sales forecasting pipeline with a **modular archi
 - FastAPI web interface support
 
 ## Installation
-1. Python 3.9+ and pip must be installed.
-2. Install required packages:
-   ```sh
-   pip install -r requierements.txt
-   ```
-3. Add your data file to the `uploads/` folder or upload via the admin panel.
+
+### Prerequisites
+- Python 3.9+ must be installed
+- pip package manager
+
+### Setup Virtual Environment (Recommended)
+```bash
+# Create virtual environment
+python3 -m venv venv
+
+# Activate virtual environment
+# On macOS/Linux:
+source venv/bin/activate
+# On Windows:
+# venv\Scripts\activate
+
+# Upgrade pip
+pip install --upgrade pip
+
+# Install required packages
+pip install -r requirements.txt
+```
+
+### Alternative: Direct Installation
+If you prefer not to use a virtual environment:
+```bash
+pip install -r requirements.txt
+```
+
+### Data Setup
+Add your data file to the `uploads/` folder or upload via the admin panel.
 
 ## Usage
 <<<<<<< HEAD
@@ -102,10 +127,47 @@ Latest run successfully processed **37 sheets**:
 
 **Performance highlights:**
 - ExtraTrees: 9.4% WAPE (best overall)
-- XGBoost: 5.8% WAPE (most accurate)
+- XGBoost: 5.8% WAPE (most accurate)  
 - CatBoost: 12.5% WAPE (robust)
 
-=======
+## Testing
+
+This project includes a comprehensive test suite to ensure code quality and reliability.
+
+### Running Tests
+
+#### Setup Test Environment
+```bash
+# Activate virtual environment
+source venv/bin/activate
+
+# Install test dependencies
+pip install -r requirements-test.txt
+```
+
+#### Run All Tests
+```bash
+# Run all tests with coverage
+python -m pytest tests/ --cov=scripts --cov-report=html
+
+# Run tests with verbose output
+python -m pytest tests/ -v
+
+# Run specific test categories
+python -m pytest tests/unit/ -v       # Unit tests only
+python -m pytest tests/integration/ -v  # Integration tests only
+```
+
+#### Test Structure
+- `tests/unit/` - Unit tests for individual modules
+- `tests/integration/` - End-to-end pipeline tests  
+- `tests/conftest.py` - Shared fixtures and test data
+- `pytest.ini` - Test configuration
+
+### Coverage Reports
+After running tests with coverage, open `htmlcov/index.html` in your browser to view detailed coverage reports.
+
+## Project Structure
 - `pipeline/` : Data processing, modeling, and forecasting code
 - `scripts/` : Batch run script
 - `uploads/` : Uploaded data files
