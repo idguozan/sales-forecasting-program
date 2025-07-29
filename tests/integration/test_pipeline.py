@@ -11,8 +11,8 @@ import sys
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from scripts.modules.data_loader import load_dataset_generic, map_columns
-from scripts.modules.feature_engineering import create_features, prepare_weekly_data
+from scripts.modules.data_loader import load_dataset_generic, map_columns, prepare_weekly_data
+from scripts.modules.feature_engineering import create_features
 from scripts.modules.forecasting.models import simple_forecast_for_sheet, ml_forecast_for_sheet
 
 class TestPipelineIntegration:
@@ -55,8 +55,13 @@ class TestPipelineIntegration:
                 mapped_data = map_columns(raw_data)
                 assert len(mapped_data) > 0
                 
+                # Prepare weekly data (missing step!)
+                weekly_data = prepare_weekly_data(mapped_data, sheet_name)
+                assert len(weekly_data) > 0
+                assert 'week' in weekly_data.columns
+                
                 # Feature engineering
-                featured_data = create_features(mapped_data)
+                featured_data = create_features(weekly_data)
                 assert len(featured_data) > 0
                 
                 # ML forecasting (should trigger for large dataset)
@@ -66,14 +71,12 @@ class TestPipelineIntegration:
                 assert isinstance(forecast_result, dict)
                 assert len(forecast_result) > 0
                 
-                # Check each model result
+                # Check each model result (DataFrame formatında)
                 for model_name, model_result in forecast_result.items():
-                    assert 'forecast' in model_result
-                    assert 'metrics' in model_result
-                    
-                    forecast_df = model_result['forecast']
-                    assert isinstance(forecast_df, pd.DataFrame)
-                    assert len(forecast_df) > 0
+                    assert isinstance(model_result, pd.DataFrame)
+                    assert len(model_result) > 0
+                    assert 'week' in model_result.columns
+                    assert 'forecast' in model_result.columns
         
         finally:
             os.unlink(tmp_path)
@@ -89,14 +92,19 @@ class TestPipelineIntegration:
         assert len(mapped_data) <= original_length  # May filter invalid rows
         assert len(mapped_data) > 0
         
-        # Stage 2: Feature engineering
-        featured_data = create_features(mapped_data)
+        # Stage 2: Weekly data preparation
+        weekly_data = prepare_weekly_data(mapped_data, "test_sheet")
+        assert len(weekly_data) > 0
+        assert 'week' in weekly_data.columns
+        
+        # Stage 3: Feature engineering
+        featured_data = create_features(weekly_data)
         
         # Features may create some NaN rows that get dropped
-        assert len(featured_data) <= len(mapped_data)
+        assert len(featured_data) <= len(weekly_data)
         
         # But should retain most data
-        retention_rate = len(featured_data) / len(mapped_data)
+        retention_rate = len(featured_data) / len(weekly_data)
         assert retention_rate > 0.5  # At least 50% data retention
     
     def test_pipeline_error_handling(self):
@@ -136,7 +144,8 @@ class TestPipelineIntegration:
         
         # Run complete pipeline
         mapped_data = map_columns(sample_large_dataset)
-        featured_data = create_features(mapped_data)
+        weekly_data = prepare_weekly_data(mapped_data, "perf_test")
+        featured_data = create_features(weekly_data)
         
         # Don't run full ML (too slow for tests), just measure preprocessing
         
