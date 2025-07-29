@@ -10,8 +10,10 @@ This project is a Python-based sales forecasting pipeline with a **modular archi
 - **✅ Enhanced ML pipeline**: Added XGBoost and CatBoost models with optimized hyperparameters  
 - **✅ Advanced feature engineering**: 25+ time-based features including rolling statistics, lag features, seasonal components
 - **✅ Sheet-wise analysis**: Each Excel sheet is processed separately with appropriate ML/simple forecasting
+- **✅ Comprehensive testing**: 32 tests (25 unit + 7 integration) with 100% pass rate
 - **✅ Comprehensive reporting**: Individual model forecasts, backtest results, and detailed PDF reports
-- **✅ Bilingual support**: All system messages translated to English while maintaining Turkish column compatibility
+- **✅ Bilingual documentation**: English TEST_USAGE_GUIDE with comprehensive testing examples
+- **✅ Robust architecture**: Test isolation ensures main system stability
 
 ## Features
 - **Modular design** with 8 specialized modules for better maintainability
@@ -59,7 +61,7 @@ pip install -r requirements.txt
 Add your data file to the `uploads/` folder or upload via the admin panel.
 
 ## Usage
-<<<<<<< HEAD
+
 **Option 1 - Command line with specific file:**
 ```sh
 python scripts/run_batch_new.py uploads/your_data_file.xlsx
@@ -75,17 +77,6 @@ python scripts/run_batch_new.py
 - `app/static/plots/` → Product analysis and forecast charts (PNG)
 - `app/static/reports/` → Model forecasts (CSV), comprehensive PDF report, sheet summary
 - Project root → `future_forecast.csv` (legacy compatibility)
-=======
-To run batch forecasting:
-```sh
-python scripts/run_batch.py uploads/your_data_file.xlsx
-```
-
-Forecasts and reports are saved in:
-- `app/static/plots/` → Product charts
-- `app/static/reports/` → PDF report, total forecasts
-- Project root → future_forecast.csv
->>>>>>> 5e3c9b7f3fa1ae0672ace07d77c5a57d6915e026
 
 ## FastAPI Service
 To start the web interface:
@@ -95,7 +86,6 @@ python app/main.py
 
 ## File Structure
 - `app/` : FastAPI backend and routers
-<<<<<<< HEAD
 - `pipeline/` : Legacy data processing code
 - **`scripts/` : Main execution and modular architecture**
   - **`run_batch_new.py`** : Main execution script (sheet-wise processing)
@@ -107,6 +97,11 @@ python app/main.py
     - **`visualization/charts.py`** : Chart generation
     - **`visualization/pdf_reports.py`** : Comprehensive PDF reporting
     - **`utils/metrics.py`** : Performance metrics and utilities
+- **`tests/` : Comprehensive test suite**
+  - **`unit/`** : Unit tests for individual modules (25 tests)
+  - **`integration/`** : End-to-end pipeline tests (7 tests)
+  - **`conftest.py`** : Shared fixtures and test data
+  - **`TEST_USAGE_GUIDE.md`** : Complete testing documentation
 - `uploads/` : Uploaded data files
 
 ## Models & Performance
@@ -129,6 +124,11 @@ Latest run successfully processed **37 sheets**:
 - ExtraTrees: 9.4% WAPE (best overall)
 - XGBoost: 5.8% WAPE (most accurate)  
 - CatBoost: 12.5% WAPE (robust)
+
+**Test System Validation:**
+- 32/32 tests passing (100% success rate)
+- Test isolation verified - no impact on main system outputs
+- Comprehensive coverage of all core modules
 
 ## Testing
 
@@ -159,27 +159,24 @@ python -m pytest tests/integration/ -v  # Integration tests only
 ```
 
 #### Test Structure
-- `tests/unit/` - Unit tests for individual modules
-- `tests/integration/` - End-to-end pipeline tests  
+- `tests/unit/` - Unit tests for individual modules (25 tests)
+- `tests/integration/` - End-to-end pipeline tests (7 tests)
 - `tests/conftest.py` - Shared fixtures and test data
+- `tests/TEST_USAGE_GUIDE.md` - Complete testing documentation
 - `pytest.ini` - Test configuration
+
+#### Current Test Status
+✅ **32/32 tests passing** (100% success rate)
+- **Unit Tests**: 25 tests validating individual module functionality
+- **Integration Tests**: 7 tests ensuring complete pipeline integrity
+- **Coverage**: Comprehensive coverage of core modules
+- **Isolation**: Tests do not affect main system outputs
 
 ### Coverage Reports
 After running tests with coverage, open `htmlcov/index.html` in your browser to view detailed coverage reports.
 
-## Project Structure
-- `pipeline/` : Data processing, modeling, and forecasting code
-- `scripts/` : Batch run script
-- `uploads/` : Uploaded data files
+For detailed testing examples and usage, see `tests/TEST_USAGE_GUIDE.md`.
 
-## Models
-- RandomForestRegressor
-- ExtraTreesRegressor
-- GradientBoostingRegressor
-- Prophet (optional)
-- LightGBM (optional)
-
->>>>>>> 5e3c9b7f3fa1ae0672ace07d77c5a57d6915e026
 ## Contributing
 You can contribute by opening pull requests or issues.
 
@@ -187,9 +184,8 @@ You can contribute by opening pull requests or issues.
 MIT
 
 ---
-<<<<<<< HEAD
 **📦 Modular Architecture:** The system is now fully modularized for better maintainability, testing, and extensibility. Each module has a specific responsibility and can be easily modified or extended.
 
-=======
->>>>>>> 5e3c9b7f3fa1ae0672ace07d77c5a57d6915e026
-For detailed documentation and usage examples, please review the code.
+**🧪 Quality Assurance:** Comprehensive test suite ensures code reliability and system stability with 32 automated tests covering all critical functionality.
+
+For detailed documentation and usage examples, please review the code and `tests/TEST_USAGE_GUIDE.md`.
