@@ -26,6 +26,11 @@ def map_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
     log_output(f"📊 Column mapping in progress... Current columns: {list(df.columns)}")
     
+    # Handle empty DataFrame
+    if len(df) == 0 or len(df.columns) == 0:
+        log_output("⚠️  Warning: Empty dataset provided")
+        return pd.DataFrame(columns=["InvoiceDate", "StockCode", "Quantity", "UnitPrice", "CustomerID"])
+    
     # Create a copy for output
     df_out = pd.DataFrame()
     

@@ -107,23 +107,32 @@ def simple_forecast_for_sheet(df: pd.DataFrame, sheet_name: str) -> pd.DataFrame
 def ml_forecast_for_sheet(df: pd.DataFrame, sheet_name: str) -> Dict[str, pd.DataFrame]:
     """
     Advanced ML-based forecasting for larger datasets (>=100 rows).
+    Input: feature-engineered DataFrame with 'week' and TARGET_COL columns
     """
     log_output(f"🤖 {sheet_name}: Applying advanced ML forecasting models...")
     
-    # Prepare weekly data
-    weekly_data = prepare_weekly_data(df, sheet_name)
+    # Input should already be prepared weekly data with features
+    # Check if it's already feature-engineered
+    if 'week' not in df.columns or TARGET_COL not in df.columns:
+        log_output(f"⚠️  {sheet_name}: Input data not properly prepared")
+        return {}
     
-    if len(weekly_data) < 20:
-        log_output(f"⚠️  {sheet_name}: Insufficient weekly data for ML, using simple forecast")
-        simple_forecast = simple_forecast_for_sheet(df, sheet_name)
+    if len(df) < 20:
+        log_output(f"⚠️  {sheet_name}: Insufficient data for ML, using simple forecast")
+        # For fallback, create simple forecast from target column
+        simple_forecast_df = pd.DataFrame({
+            'week': pd.date_range(df['week'].max() + pd.Timedelta(weeks=1), 
+                                periods=FORECAST_HORIZON_WEEKS, freq='W'),
+            'forecast': [df[TARGET_COL].mean()] * FORECAST_HORIZON_WEEKS
+        })
         return {
-            "rf": simple_forecast.copy(),
-            "et": simple_forecast.copy(),
-            "gb": simple_forecast.copy()
+            "rf": simple_forecast_df.copy(),
+            "et": simple_forecast_df.copy(),
+            "gb": simple_forecast_df.copy()
         }
     
-    # Create advanced features
-    weekly_model = create_features(weekly_data)
+    # Input data should already have features, use it directly
+    weekly_model = df.copy()
     
     # Train/Test split
     max_week = weekly_model["week"].max()

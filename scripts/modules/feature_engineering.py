@@ -63,6 +63,6 @@ def create_features(df: pd.DataFrame) -> pd.DataFrame:
     
     # Fill NaN values with advanced methods
     # Forward fill first, then backward fill, then fill with 0
-    df = df.fillna(method='ffill').fillna(method='bfill').fillna(0)
+    df = df.ffill().bfill().fillna(0)  # Yeni pandas syntax
     
     return df
