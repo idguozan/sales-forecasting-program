@@ -159,13 +159,22 @@ def ml_forecast_for_sheet(df: pd.DataFrame, sheet_name: str) -> Dict[str, pd.Dat
     models = {}
     backtest_results = {}
     
-    # RandomForest with optimized parameters
+    # RandomForest with optimized parameters based on data size
     log_output(f"🌲 {sheet_name}: Training Optimized RandomForest...")
+    
+    # Adaptive parameters based on data size
+    if len(X_train) < 50:
+        rf_params = {'n_estimators': 100, 'max_depth': 10, 'min_samples_split': 5, 'min_samples_leaf': 3}
+    elif len(X_train) < 100:
+        rf_params = {'n_estimators': 150, 'max_depth': 12, 'min_samples_split': 4, 'min_samples_leaf': 2}
+    else:
+        rf_params = {'n_estimators': 200, 'max_depth': 15, 'min_samples_split': 3, 'min_samples_leaf': 2}
+    
     rf_model = RandomForestRegressor(
-        n_estimators=200, 
-        max_depth=15,
-        min_samples_split=3,
-        min_samples_leaf=2,
+        n_estimators=rf_params['n_estimators'], 
+        max_depth=rf_params['max_depth'],
+        min_samples_split=rf_params['min_samples_split'],
+        min_samples_leaf=rf_params['min_samples_leaf'],
         max_features='sqrt',
         random_state=42, 
         n_jobs=-1
