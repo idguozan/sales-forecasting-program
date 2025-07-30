@@ -19,6 +19,7 @@ plotly>=5.0.0
 # Web Framework
 fastapi==0.116.1
 uvicorn==0.35.0
+python-multipart>=0.0.5
 
 # PDF Generation
 reportlab==4.4.2

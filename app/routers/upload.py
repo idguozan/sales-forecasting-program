@@ -59,9 +59,9 @@ async def start_analysis():
     if not data_path:
         raise HTTPException(status_code=400, detail="Please upload a data file first.")
 
-    run_batch_path = os.path.join(PROJECT_ROOT, "scripts", "run_batch.py")
+    run_batch_path = os.path.join(PROJECT_ROOT, "scripts", "run_batch_new.py")
     if not os.path.exists(run_batch_path):
-        raise HTTPException(status_code=500, detail="run_batch.py not found.")
+        raise HTTPException(status_code=500, detail="run_batch_new.py not found.")
 
     python_exec = sys.executable
 

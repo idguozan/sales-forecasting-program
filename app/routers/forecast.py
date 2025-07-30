@@ -5,13 +5,18 @@ import os
 
 router = APIRouter()
 
-REPORTS_DIR = os.path.join("app", "static", "reports")
+# Use absolute path for reports directory
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+REPORTS_DIR = os.path.join(PROJECT_ROOT, "app", "static", "reports")
+
+# Ensure reports directory exists
+os.makedirs(REPORTS_DIR, exist_ok=True)
 
 @router.post("/run")
 def run_forecast():
     try:
-        # Run run_batch.py
-        subprocess.run(["python3", "scripts/run_batch.py"], check=True)
+        # Run run_batch_new.py (correct script path)
+        subprocess.run(["python3", "scripts/run_batch_new.py"], check=True)
         return {
             "message": "Forecast completed",
             "pdf_report": f"/forecast/download/pdf",
