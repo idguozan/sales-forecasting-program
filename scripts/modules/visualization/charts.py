@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+ # -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
@@ -6,11 +8,11 @@ Visualization module for the sales forecasting system.
 Contains functions for creating charts and plots.
 """
 
-import matplotlib
+import matplotlib  # pyright: ignore[reportMissingModuleSource]
 matplotlib.use("Agg")  # headless
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
+import matplotlib.pyplot as plt  # pyright: ignore[reportMissingModuleSource]
+import pandas as pd  # pyright: ignore[reportMissingModuleSource]
+import numpy as np  # pyright: ignore[reportMissingImports]
 from typing import Dict
 
 from ..config import PLOTS_DIR, LIBRARY_AVAILABILITY
@@ -117,24 +119,36 @@ def create_forecast_charts(forecasts: Dict[str, pd.DataFrame], sheet_name: str, 
         
         # Future forecasts visualization (Top right)
         ax2 = axes[0, 1]
-        colors = {"rf": "#FF6B6B", "et": "#4ECDC4", "gb": "#45B7D1", "simple": "#FFA07A"}
+        colors = {"rf": "#FF6B6B", "et": "#4ECDC4", "gb": "#45B7D1", "simple": "#FFA07A", "improved": "#FFD700", "xgb": "#1E90FF", "cat": "#8B008B"}
+
+        # Forecast horizon belirleme (genelde 12 hafta)
+        forecast_horizon = 12
         
+        # Gelecek haftaları sıralı bir şekilde oluştur
+        future_week_numbers = list(range(1, forecast_horizon + 1))
+        
+        # Tüm modellerin tahminlerini aynı X değerleri ile çiz
         for model_name, forecast_df in forecasts.items():
-            if len(forecast_df) > 0:
+            if len(forecast_df) > 0 and "forecast" in forecast_df.columns:
                 color = colors.get(model_name, "#9B59B6")
-                ax2.plot(forecast_df["week"], forecast_df["forecast"], 
+                
+                # Sadece forecast değerlerini al, X için sıralı numaralar kullan
+                forecast_values = forecast_df["forecast"].values[:forecast_horizon]
+                x_values = future_week_numbers[:len(forecast_values)]
+                
+                ax2.plot(x_values, forecast_values, 
                         label=f"{model_name.upper()} Forecast", 
                         marker='s', markersize=4, color=color, linewidth=2)
                 # Add fill for better visibility
-                ax2.fill_between(forecast_df["week"], forecast_df["forecast"], 
+                ax2.fill_between(x_values, forecast_values, 
                                alpha=0.2, color=color)
-        
-        ax2.set_xlabel("Week")
+
+        ax2.set_xlabel("Future Week")
         ax2.set_ylabel("Predicted Sales")
         ax2.set_title("🔮 Future Sales Forecasts", fontweight='bold')
         ax2.legend()
         ax2.grid(True, alpha=0.3)
-        ax2.tick_params(axis='x', rotation=45)
+        ax2.set_xlim([0.5, forecast_horizon + 0.5])  # X eksenini 1-12 hafta arası ayarla
         
         # Model comparison (Bottom left)
         ax3 = axes[1, 0]

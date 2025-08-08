@@ -129,6 +129,26 @@ def load_dataset_generic(path: Path) -> Dict[str, pd.DataFrame]:
     elif ext == ".csv":
         df = pd.read_csv(path)
         log_output(f"📄 CSV file loaded: {len(df)} rows")
+        
+        # Check if we have product-based data (multiple products in one CSV)
+        if 'Urun' in df.columns or 'urun' in df.columns or 'Product' in df.columns:
+            # Split by product/urun column
+            product_col = None
+            for col in ['Urun', 'urun', 'Product', 'product', 'PRODUCT']:
+                if col in df.columns:
+                    product_col = col
+                    break
+            
+            if product_col:
+                sheets_data = {}
+                for product in df[product_col].unique():
+                    product_df = df[df[product_col] == product].copy()
+                    sheets_data[str(product)] = product_df
+                    log_output(f"📄 Product '{product}': {len(product_df)} rows")
+                log_output(f"✅ CSV split into {len(sheets_data)} product sheets")
+                return sheets_data
+        
+        # Fallback to single sheet
         return {"Sheet1": df}
         
     elif ext in [".sqlite", ".db"]:
@@ -173,7 +193,7 @@ def prepare_weekly_data(df: pd.DataFrame, sheet_name: str) -> pd.DataFrame:
     # Drop rows with invalid dates
     df = df.dropna(subset=["InvoiceDate"])
     
-    # Create total sales
+    # Create total sales and quantity metrics
     df["TotalSales"] = df["Quantity"] * df["UnitPrice"]
     
     # Create week column
@@ -191,8 +211,8 @@ def prepare_weekly_data(df: pd.DataFrame, sheet_name: str) -> pd.DataFrame:
         "Quantity": "sum"
     }).reset_index()
     
-    # Rename for modeling
-    weekly_total = weekly_total.rename(columns={"TotalSales": TARGET_COL})
+    # Use Quantity (adet) instead of TotalSales (TL) for forecasting
+    weekly_total = weekly_total.rename(columns={"Quantity": TARGET_COL})
     
-    log_output(f"📊 {sheet_name}: {len(weekly_total)} weekly data prepared")
+    log_output(f"📊 {sheet_name}: {len(weekly_total)} weekly data prepared (using quantity in adet)")
     return weekly_total

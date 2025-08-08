@@ -38,7 +38,13 @@ from datetime import datetime
 import warnings
 warnings.filterwarnings('ignore')
 
-import pandas as pd
+try:
+    import pandas as pd
+except ImportError:
+    print("❌ Pandas is not installed. Please install with: pip install pandas")
+    sys.exit(1)
+
+# pyright: reportMissingModuleSource=false
 
 # Import modules
 from modules.config import (
@@ -56,6 +62,9 @@ from modules.feature_engineering import (
 )
 from modules.forecasting.models import (
     simple_forecast_for_sheet, ml_forecast_for_sheet
+)
+from modules.improved_forecasting.models import (
+    improved_forecast_for_sheet
 )
 from modules.visualization.charts import (
     create_product_analysis_charts, create_forecast_charts
@@ -141,13 +150,31 @@ def main():
                     method_used = "Simple"
                     
                 else:
-                    log_output(f"🤖 {sheet_name}: Sufficient data size ({len(mapped_df)} >= {SHEET_ML_THRESHOLD}), using ML models")
+                    log_output(f"🤖 {sheet_name}: Sufficient data size ({len(mapped_df)} >= {SHEET_ML_THRESHOLD}), using ML models + improved method")
                     
                     # Complete ML pipeline: prepare weekly data -> create features -> ML forecast
                     weekly_data = prepare_weekly_data(mapped_df, sheet_name)
                     featured_data = create_features(weekly_data)
                     sheet_forecasts = ml_forecast_for_sheet(featured_data, sheet_name)
-                    method_used = "ML"
+                    
+                    # Add improved forecasting method
+                    try:
+                        log_output(f"🔧 {sheet_name}: Running improved statistical forecasting...")
+                        improved_result = improved_forecast_for_sheet(mapped_df, sheet_name)
+                        
+                        # Convert to DataFrame format for consistency
+                        improved_df = pd.DataFrame({
+                            'sheet_name': [sheet_name] * FORECAST_HORIZON_WEEKS,
+                            'week': list(range(1, FORECAST_HORIZON_WEEKS + 1)),
+                            'forecast': improved_result
+                        })
+                        sheet_forecasts["improved"] = improved_df
+                        log_output(f"✅ {sheet_name}: Improved forecasting completed. Average: {sum(improved_result)/len(improved_result):.2f}")
+                        
+                    except Exception as e:
+                        log_output(f"⚠️ {sheet_name}: Improved forecasting failed: {e}")
+                    
+                    method_used = "ML+Improved"
                 
                 # Create forecast charts
                 create_forecast_charts(sheet_forecasts, sheet_name, mapped_df)
@@ -212,7 +239,7 @@ def main():
         log_output("\n📁 Saving model forecasts...")
         
         # Combine all forecasts by model
-        combined_forecasts = {"rf": [], "et": [], "gb": [], "simple": []}
+        combined_forecasts = {"rf": [], "et": [], "gb": [], "simple": [], "improved": []}
         
         # Add XGBoost and CatBoost if available
         if LIBRARY_AVAILABILITY['xgboost']:

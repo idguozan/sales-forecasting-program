@@ -32,7 +32,7 @@ for dir_path in [PLOTS_DIR, REPORTS_DIR, UPLOADS_DIR]:
 # ============================================================================
 
 FORECAST_HORIZON_WEEKS = 12
-TARGET_COL = "total_sales"
+TARGET_COL = "total_sales"  # Changed from total_sales to total_quantity (kg)
 
 # Enhanced feature columns
 FEATURE_COLS = [
@@ -67,18 +67,18 @@ STOCK_COLS = [
 
 PRODUCT_NAME_COLS = [
     "ürün_adı", "urun_adi", "product_name", "ProductName", "Description",
-    "ürün_tanımı", "urun_tanimi", "açıklama", "aciklama"
+    "ürün_tanımı", "urun_tanimi", "açıklama", "aciklama", "Urun", "urun"
 ]
 
 QTY_COLS = [
     "miktar", "quantity", "Quantity", "QUANTITY", "Miktar", "MİKTAR",
     "adet", "Adet", "qty", "QTY", "İhtiyaç Kg", "ihtiyac_kg", "ihtiyaç_kg", 
-    "need_kg", "requirement_kg", "kg", "KG"
+    "need_kg", "requirement_kg", "kg", "KG", "Satis_Miktari", "satis_miktari"
 ]
 
 PRICE_COLS = [
     "birim_fiyat", "unit_price", "UnitPrice", "Price", "fiyat", "Fiyat",
-    "birim_fiyati", "unitprice"
+    "birim_fiyati", "unitprice", "Fiyat"
 ]
 
 CUSTOMER_COLS = [
