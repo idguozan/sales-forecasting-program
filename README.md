@@ -1,6 +1,7 @@
 
 # Sales Forecasting Program
 
+[![GitHub stars](https://img.shields.io/github/stars/idguozan/sales-forecasting-program?style=flat-square)](https://github.com/idguozan/sales-forecasting-program/stargazers)
 ![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue?style=flat-square)
 ![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue?style=flat-square)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.116.1-009688?style=flat-square)
@@ -21,9 +22,12 @@
 - [Results](#results)
 - [Testing](#testing)
 - [API Documentation](#api-documentation)
+- [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
 - [License](#license)
 - [Authors](#authors)
+- [Development Timeline](#development-timeline)
+- [Acknowledgments](#acknowledgments)
 
 ---
 
@@ -46,8 +50,8 @@ Get started in less than 5 minutes!
 
 ```bash
 # Clone the repository
-git clone https://github.com/idguozan/sales-prediction-program.git
-cd sales-prediction-program
+git clone https://github.com/idguozan/sales-forecasting-program.git
+cd sales-forecasting-program
 
 # Install dependencies
 pip install -r requirements.txt
@@ -56,7 +60,7 @@ pip install -r requirements.txt
 python scripts/run_batch_new.py uploads/your_data_file.xlsx
 ```
 
-That's it! Your analysis results will be saved in the `app/static/reports/` directory.
+**That's it!** Your analysis results will be saved in the `app/static/reports/` directory.
 
 ---
 
@@ -64,14 +68,22 @@ That's it! Your analysis results will be saved in the `app/static/reports/` dire
 
 ### Prerequisites
 
+**System Requirements:**
 - Python 3.9+
+- 4GB+ RAM (recommended for large datasets)
+- 1GB free disk space
 - pip package manager
+
+**Operating System Support:**
+- ✅ macOS 10.14+
+- ✅ Windows 10+
+- ✅ Linux (Ubuntu 18.04+)
 
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/idguozan/sales-prediction-program.git
-cd sales-prediction-program
+git clone https://github.com/idguozan/sales-forecasting-program.git
+cd sales-forecasting-program
 ```
 
 ### Step 2: Create Virtual Environment (Recommended)
@@ -136,16 +148,16 @@ python app/main.py
 ## Project Structure
 
 ```
-sales-prediction-program/
+sales-forecasting-program/
 │
-├── 📊 app/
+├── app/
 │   ├── main.py                     # FastAPI application
 │   ├── routers/                    # API endpoints
 │   └── static/
 │       ├── plots/                  # Generated charts (PNG)
 │       └── reports/                # Analysis results (PDF, CSV)
 │
-├── 🧪 scripts/
+├── scripts/
 │   ├── run_batch_new.py           # Main execution script
 │   └── modules/
 │       ├── config.py              # Configuration parameters
@@ -161,11 +173,11 @@ sales-prediction-program/
 │           ├── charts.py          # Chart generation
 │           └── pdf_reports.py     # PDF report creation
 │
-├── 🔧 pipeline/                   # Legacy pipeline (maintained for compatibility)
-├── 🧪 tests/                      # Comprehensive test suite
-├── 📁 uploads/                    # Data upload directory
-├── 📋 requirements.txt            # Python dependencies
-└── 📖 README.md                   # This file
+├── pipeline/                   # Legacy pipeline (maintained for compatibility)
+├── tests/                      # Comprehensive test suite
+├── uploads/                    # Data upload directory
+├── requirements.txt            # Python dependencies
+└── README.md                   # This file
 ```
 
 ---
@@ -256,18 +268,72 @@ Access the interactive API documentation at `http://localhost:8000/docs` when ru
 
 ---
 
+## Troubleshooting
+
+**Common Issues and Solutions:**
+
+**Installation Issues:**
+```bash
+# If pip install fails, try upgrading pip first
+pip install --upgrade pip
+
+# For macOS users with M1/M2 chips
+pip install --no-deps scikit-learn
+```
+
+**Memory Issues with Large Datasets:**
+- Reduce batch size in `config.py`
+- Process sheets individually
+- Use data sampling for initial testing
+
+**Import Errors:**
+```bash
+# Ensure virtual environment is activated
+source .venv/bin/activate  # macOS/Linux
+# or
+.venv\Scripts\activate     # Windows
+
+# Reinstall dependencies
+pip install -r requirements.txt
+```
+
+**File Not Found Errors:**
+- Ensure data files are in `uploads/` directory
+- Check file permissions (read access required)
+- Verify file format (.xlsx, .csv, .sql, .sqlite)
+
+---
+
 ## Contributing
 
+We welcome contributions! Here's how you can help:
+
+**Getting Started:**
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Create a Pull Request
+3. Make your changes
+4. Add tests for new functionality
+5. Ensure all tests pass (`python -m pytest tests/`)
+6. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+7. Push to the branch (`git push origin feature/AmazingFeature`)
+8. Create a Pull Request
+
+**Types of Contributions:**
+-  Bug fixes
+-  New features
+-  Documentation improvements
+-  Test coverage expansion
+-  Performance optimizations
+
+**Development Guidelines:**
+- Follow PEP 8 style guidelines
+- Add type hints where possible
+- Include unit tests for new features
+- Update documentation for API changes
 
 ---
 
 ## License
-
 
 This project is licensed under the GNU General Public License v3.0 (GPLv3). See the [LICENSE](LICENSE) file for details.
 
@@ -281,7 +347,29 @@ This project is licensed under the GNU General Public License v3.0 (GPLv3). See 
 
 ## Development Timeline
 
-This project has been in active development with continuous improvements in machine learning accuracy, modular architecture, and comprehensive testing capabilities.
+**Version 2.0** *(Current)*
+- ✅ Modular architecture implementation
+- ✅ Comprehensive test suite (32 tests)
+- ✅ Advanced feature engineering (25+ features)
+- ✅ FastAPI web interface
+- ✅ GPL v3 license implementation
+
+**Version 1.5**
+- ✅ XGBoost and CatBoost integration
+- ✅ Conservative optimization (19.5% MAE improvement)
+- ✅ PDF report generation
+- ✅ Multi-format data support
+
+**Version 1.0**
+- ✅ Initial ML models (Random Forest, Extra Trees)
+- ✅ Basic forecasting pipeline
+- ✅ Excel data processing
+
+**Roadmap (Future Versions):**
+- 🔄 Enhanced web UI with interactive dashboards
+- 🔄 Real-time forecasting API
+- 🔄 Docker containerization
+- 🔄 Cloud deployment options
 
 ---
 
@@ -301,185 +389,4 @@ This project has been in active development with continuous improvements in mach
 
 ---
 
-© 2024 Ozan İdgü. All rights reserved.
-
-# Upgrade pip
-pip install --upgrade pip
-
-# Install required packages
-pip install -r requirements.txt
-```
-
-### Alternative: Direct Installation
-If you prefer not to use a virtual environment:
-```bash
-pip install -r requirements.txt
-```
-
-### Data Setup
-Add your data file to the `uploads/` folder or upload via the admin panel.
-
-## Usage
-
-**Option 1 - Command line with specific file:**
-```sh
-python scripts/run_batch_new.py uploads/your_data_file.xlsx
-```
-
-**Option 2 - Use last uploaded file:**
-```sh
-python scripts/run_batch_new.py
-```
-(Reads from `uploads/last_uploaded.json` automatically)
-
-### Output Locations:
-- `app/static/plots/` → Product analysis and forecast charts (PNG)
-- `app/static/reports/` → Model forecasts (CSV), comprehensive PDF report, sheet summary
-- Project root → `future_forecast.csv` (legacy compatibility)
-
-## 📊 Performance Metrics
-
-### Conservative Optimization Results
-- **Baseline Average MAE**: 176.2
-- **Optimized Average MAE**: 141.85
-- **Improvement**: **-19.5%** (Lower is better)
-- **WAPE Target**: 20% (Updated from 10% for realistic evaluation)
-- **Feature Count**: 25+ time-based engineered features
-- **Optimization Method**: IQR outlier handling + adaptive hyperparameters
-
-### Model Performance
-- **Random Forest**: Adaptive n_estimators (100-200) based on data size
-- **Extra Trees**: Optimized depth and sampling parameters
-- **Gradient Boosting**: Learning rate and subsample optimization
-- **Best Model Selection**: Automatic based on cross-validation MAE
-- **Ensemble Ready**: Individual model predictions saved for future ensemble
-
-## FastAPI Service
-To start the web interface:
-```sh
-python app/main.py
-```
-
-## File Structure
-- `app/` : FastAPI backend and routers
-- `pipeline/` : Legacy data processing code
-- **`scripts/` : Main execution and modular architecture**
-  - **`run_batch_new.py`** : Main execution script (sheet-wise processing)
-  - **`modules/`** : Modular components
-    - **`config.py`** : Configuration and parameters
-    - **`data_loader.py`** : Data loading and column mapping
-    - **`feature_engineering.py`** : Advanced feature creation (25+ features)
-    - **`forecasting/models.py`** : ML models and forecasting logic
-    - **`visualization/charts.py`** : Chart generation
-    - **`visualization/pdf_reports.py`** : Comprehensive PDF reporting
-    - **`utils/metrics.py`** : Performance metrics and utilities
-- **`tests/` : Comprehensive test suite**
-  - **`unit/`** : Unit tests for individual modules (25 tests)
-    - **`test_config.py`** : Configuration validation tests
-    - **`test_data_loader.py`** : Data loading and column mapping tests
-    - **`test_feature_engineering.py`** : Feature creation and data preparation tests
-    - **`test_models.py`** : ML model functionality and forecasting tests
-  - **`integration/`** : End-to-end pipeline tests (7 tests)
-    - **`test_pipeline.py`** : Complete pipeline integration tests
-  - **`conftest.py`** : Shared fixtures and test data
-  - **`TEST_USAGE_GUIDE.md`** : Complete testing documentation
-- `uploads/` : Uploaded data files
-
-## Models & Performance
-- **RandomForestRegressor** (Optimized hyperparameters)
-- **ExtraTreesRegressor** (Often best performer - 9.4% WAPE)
-- **GradientBoostingRegressor** 
-- **XGBoost** (Excellent accuracy - 5.8% WAPE)
-- **CatBoost** (Robust performance - 12.5% WAPE)
-- Prophet (optional, legacy support)
-- LightGBM (optional)
-
-## Recent Test Results
-Latest run successfully processed **37 sheets**:
-- 🤖 **26 sheets** processed with ML models
-- 🔮 **11 sheets** processed with simple forecasting  
-- ❌ **0 errors**
-- ⚡ Average processing time: **2.5 seconds per sheet**
-
-**Performance highlights:**
-- ExtraTrees: 9.4% WAPE (best overall)
-- XGBoost: 5.8% WAPE (most accurate)  
-- CatBoost: 12.5% WAPE (robust)
-
-**Test System Validation:**
-- 32/32 tests passing (100% success rate)
-- Test isolation verified - no impact on main system outputs
-- Comprehensive coverage of all core modules
-
-## Testing
-
-This project includes a comprehensive test suite to ensure code quality and reliability.
-
-### Running Tests
-
-#### Setup Test Environment
-```bash
-# Activate virtual environment
-source venv/bin/activate
-
-# Install test dependencies
-pip install -r requirements-test.txt
-```
-
-#### Run All Tests
-```bash
-# Run all tests with coverage
-python -m pytest tests/ --cov=scripts --cov-report=html
-
-# Run tests with verbose output
-python -m pytest tests/ -v
-
-# Run specific test categories
-python -m pytest tests/unit/ -v       # Unit tests only
-python -m pytest tests/integration/ -v  # Integration tests only
-```
-
-#### Test Structure
-- `tests/unit/` - Unit tests for individual modules (25 tests)
-  - `test_config.py` - Configuration and parameter validation
-  - `test_data_loader.py` - Data loading, Excel/CSV processing, column mapping
-  - `test_feature_engineering.py` - Weekly data preparation, feature creation
-  - `test_models.py` - ML model functionality, forecasting methods
-- `tests/integration/` - End-to-end pipeline tests (7 tests)
-  - `test_pipeline.py` - Complete workflow integration testing
-- `tests/conftest.py` - Shared fixtures and test data
-- `tests/TEST_USAGE_GUIDE.md` - Complete testing documentation
-- `pytest.ini` - Test configuration
-
-#### Current Test Status
-✅ **32/32 tests passing** (100% success rate)
-- **Unit Tests**: 25 tests validating individual module functionality
-- **Integration Tests**: 7 tests ensuring complete pipeline integrity
-- **Coverage**: Comprehensive coverage of core modules
-- **Isolation**: Tests do not affect main system outputs
-
-### Coverage Reports
-After running tests with coverage, open `htmlcov/index.html` in your browser to view detailed coverage reports.
-
-For detailed testing examples and usage, see `tests/TEST_USAGE_GUIDE.md`.
-
-## Contributing
-You can contribute by opening pull requests or issues.
-
-
-## License
-
-This project is licensed under the GNU General Public License v3.0 (GPLv3). Commercial use is not permitted unless you comply with the terms of the GPLv3. See the [LICENSE](LICENSE) file for full details.
-
----
-
-## User Interface (Planned)
-
-An advanced user interface is planned for future releases. Currently, the system provides a FastAPI web interface for data upload and analysis. A more comprehensive and user-friendly UI is under development and will be announced in upcoming versions.
-
----
-**📦 Modular Architecture:** The system is now fully modularized for better maintainability, testing, and extensibility. Each module has a specific responsibility and can be easily modified or extended.
-
-**🧪 Quality Assurance:** Comprehensive test suite ensures code reliability and system stability with 32 automated tests covering all critical functionality.
-
-For detailed documentation and usage examples, please review the code and `tests/TEST_USAGE_GUIDE.md`.
+© 2025 Ozan İdgü. All rights reserved.

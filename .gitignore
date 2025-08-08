@@ -16,9 +16,12 @@ __pycache__/
 *.so
 
 # Virtual Environment
+.venv/
 venv/
 env/
 ENV/
+env.bak/
+venv.bak/
 
 # Output directories (generated files should not be tracked)
 app/static/reports/
@@ -151,12 +154,6 @@ celerybeat.pid
 
 # Environments
 .env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
 
 # Spyder project settings
 .spyderproject
@@ -195,10 +192,24 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# Cursor  
-#  Cursor is an AI-powered code editor.`.cursorignore` specifies files/directories to 
-#  exclude from AI features like autocomplete and code analysis. Recommended for sensitive data
-#  refer to https://docs.cursor.com/context/ignore-files
+# Cursor AI Editor
 .cursorignore
-.cursorindexingignorescripts/run_batch_modular.py
+
+# Project-specific excluded files
+scripts/run_batch_modular.py
 scripts/run_batch.py
+
+# Sales Forecasting Program specific outputs
+future_forecast.csv
+comprehensive_validation_results.csv
+*_karsilastirma_raporu.txt
+*_dogrulama_raporu.txt
+validate_comprehensive.py
+
+# Temporary uploads and last uploaded tracking
+uploads/last_uploaded.json
+
+# Model artifacts and temporary files
+*.pkl
+*.joblib
+*.model
