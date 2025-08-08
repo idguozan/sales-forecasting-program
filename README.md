@@ -389,4 +389,4 @@ This project is licensed under the GNU General Public License v3.0 (GPLv3). See 
 
 ---
 
-© 2025 Ozan İdgü. All rights reserved.
+© 2025 Ozan İdgü. Licensed under GPL v3.
