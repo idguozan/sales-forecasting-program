@@ -38,6 +38,10 @@ from datetime import datetime
 import warnings
 warnings.filterwarnings('ignore')
 
+# Add scripts directory to Python path
+script_dir = Path(__file__).parent
+sys.path.insert(0, str(script_dir))
+
 try:
     import pandas as pd
 except ImportError:
