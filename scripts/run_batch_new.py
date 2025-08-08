@@ -178,7 +178,7 @@ def main():
                     except Exception as e:
                         log_output(f"⚠️ {sheet_name}: Improved forecasting failed: {e}")
                     
-                    method_used = "ML+Improved"
+                    method_used = "ML"
                 
                 # Create forecast charts
                 create_forecast_charts(sheet_forecasts, sheet_name, mapped_df)
